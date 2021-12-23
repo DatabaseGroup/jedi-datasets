@@ -17,3 +17,34 @@ The raw JSON datasets are fetched from repositories (see directory `raw-data`) a
 ```
 sh scripts/download-prepare.sh
 ```
+
+This process takes approximately one hour for all datasets. One might 
+consider to exclude datasets that are not needed.
+
+## Datasets
+
+The following datasets are included:
+- arxiv
+- cards
+- clothing
+- dblp
+- denf
+- device
+- face
+- fenf
+- movies
+- nasa
+- nba
+- reads
+- recipes
+- reddit
+- schema
+- smsen
+- smszh
+- spotify
+- standev
+- stantrain
+- trees
+- twitter
+- twitter2
+- virus
