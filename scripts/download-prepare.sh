@@ -21,84 +21,226 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# The raw JSON datasets are fetched from repositories (see directory `raw-data`)
+# and converted into bracket notation which serves as the input data for the
+# algorithms (see directory `input-data`). Further, the characteristics of the
+# datasets are analyzed.
+
+start_time=$SECONDS
 echo "This might take some minutes..."
 
 # Create raw data directory in case it does not exist.
-echo "Download raw data (1/2)"
+echo "Download raw data (1/3)"
 mkdir -p raw-data
 cd raw-data
 
 # Clone raw data from the data repositories. Downloading GBs of data may take a 
 # while.
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/arxiv.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/trees.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/reads.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/virus.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/dblp.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/nba.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/twitter.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/arxiv.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/cards.git
 git clone https://frosch.cosy.sbg.ac.at/datasets/json/clothing.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/face.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/fda.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/cards.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/nasa.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/movies.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/reddit.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/recipes.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/schema.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/smsen.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/smszh.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/spotify.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/standev.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/stantrain.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/twitter2.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/dblp.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/denf.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/device.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/face.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/fenf.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/movies.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/nasa.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/nba.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/reads.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/recipes.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/reddit.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/schema.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/smsen.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/smszh.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/spotify.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/standev.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/stantrain.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/trees.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/twitter.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/twitter2.git
+# git clone https://frosch.cosy.sbg.ac.at/datasets/json/virus.git
 
 # Create input data directories in case they do not exist.
-echo "Prepare input data (2/2)"
+echo "Prepare input data (2/3)"
 cd ..
 mkdir -p input-data/arxiv
-mkdir -p input-data/trees
-mkdir -p input-data/reads
-mkdir -p input-data/virus
-mkdir -p input-data/dblp
-mkdir -p input-data/nba
-mkdir -p input-data/twitter
-mkdir -p input-data/clothing
-mkdir -p input-data/face
-mkdir -p input-data/fda
 mkdir -p input-data/cards
-mkdir -p input-data/nasa
+mkdir -p input-data/clothing
+mkdir -p input-data/dblp
+mkdir -p input-data/denf
+mkdir -p input-data/device
+mkdir -p input-data/face
+mkdir -p input-data/fenf
 mkdir -p input-data/movies
-mkdir -p input-data/reddit
+mkdir -p input-data/nasa
+mkdir -p input-data/nba
+mkdir -p input-data/reads
 mkdir -p input-data/recipes
+mkdir -p input-data/reddit
 mkdir -p input-data/schema
 mkdir -p input-data/smsen
 mkdir -p input-data/smszh
 mkdir -p input-data/spotify
 mkdir -p input-data/standev
 mkdir -p input-data/stantrain
+mkdir -p input-data/trees
+mkdir -p input-data/twitter
 mkdir -p input-data/twitter2
+mkdir -p input-data/virus
 
-# Prepare the input data from the raw data.
-python scripts/json2bracket.py -i raw-data/arxiv/arxiv.json -o input-data/arxiv/arxiv.bracket
-python scripts/json2bracket.py -i raw-data/trees/trees.json -o input-data/trees/trees.bracket
-python scripts/json2bracket.py -i raw-data/reads/reads.json -o input-data/reads/reads.bracket
-python scripts/json2bracket.py -i raw-data/virus/virus.json -o input-data/virus/virus.bracket
-python scripts/json2bracket.py -i raw-data/dblp/dblp.json -o input-data/dblp/dblp.bracket
-python scripts/json2bracket.py -i raw-data/nba/nba.json -o input-data/nba/nba.bracket
-python scripts/json2bracket.py -i raw-data/twitter/twitter.json -o input-data/twitter/twitter.bracket
-python scripts/json2bracket.py -i raw-data/clothing/clothing.json -o input-data/clothing/clothing.bracket
-python scripts/json2bracket.py -i raw-data/face/face.json -o input-data/face/face.bracket
-python scripts/json2bracket.py -i raw-data/fda/fda.json -o input-data/fda/fda.bracket
-python scripts/json2bracket.py -i raw-data/cards/cards.json -o input-data/cards/cards.bracket
-python scripts/json2bracket.py -i raw-data/nasa/nasa.json -o input-data/nasa/nasa.bracket
-python scripts/json2bracket.py -i raw-data/movies/movies.json -o input-data/movies/movies.bracket
-python scripts/json2bracket.py -i raw-data/reddit/reddit.json -o input-data/reddit/reddit.bracket
-python scripts/json2bracket.py -i raw-data/recipes/recipes.json -o input-data/recipes/recipes.bracket
-python scripts/json2bracket.py -i raw-data/schema/schema.json -o input-data/schema/schema.bracket
-python scripts/json2bracket.py -i raw-data/smsen/smsen.json -o input-data/smsen/smsen.bracket
-python scripts/json2bracket.py -i raw-data/smszh/smszh.json -o input-data/smszh/smszh.bracket
-python scripts/json2bracket.py -i raw-data/spotify/spotify.json -o input-data/spotify/spotify.bracket
-python scripts/json2bracket.py -i raw-data/standev/standev.json -o input-data/standev/standev.bracket
-python scripts/json2bracket.py -i raw-data/stantrain/stantrain.json -o input-data/stantrain/stantrain.bracket
-python scripts/json2bracket.py -i raw-data/twitter2/twitter2.json -o input-data/twitter2/twitter2.bracket
+# Convert the raw JSON data into the bracket notation input data format. Sort 
+# the sibling order to apply the JediOrder upper bound on ordered siblings.
+# echo " * Processing arxiv ..."
+# python scripts/json2bracket.py -f raw-data/arxiv/arxiv.json -c -s > input-data/arxiv/arxiv.bracket
+# echo " Done"
+# echo " * Processing cards ..."
+# python scripts/json2bracket.py -f raw-data/cards/cards.json -c -s > input-data/cards/cards.bracket
+# echo " Done"
+echo " * Processing clothing ...\c"
+python scripts/json2bracket.py -f raw-data/clothing/clothing.json -c -s > input-data/clothing/clothing.bracket
+echo " Done"
+# echo " * Processing dblp ..."
+# python scripts/json2bracket.py -f raw-data/dblp/dblp.json -c -s > input-data/dblp/dblp.bracket
+# echo " Done"
+# echo " * Processing denf ..."
+# python scripts/json2bracket.py -f raw-data/denf/denf.json -c -s > input-data/denf/denf.bracket
+# echo " Done"
+# echo " * Processing device ..."
+# python scripts/json2bracket.py -f raw-data/device/device.json -c -s > input-data/device/device.bracket
+# echo " Done"
+# echo " * Processing face ..."
+# python scripts/json2bracket.py -f raw-data/face/face.json -c -s > input-data/face/face.bracket
+# echo " Done"
+# echo " * Processing fenf ..."
+# python scripts/json2bracket.py -f raw-data/fenf/fenf.json -c -s > input-data/fenf/fenf.bracket
+# echo " Done"
+# echo " * Processing movies ..."
+# python scripts/json2bracket.py -f raw-data/movies/movies.json -c -s > input-data/movies/movies.bracket
+# echo " Done"
+# echo " * Processing nasa ..."
+# python scripts/json2bracket.py -f raw-data/nasa/nasa.json -c -s > input-data/nasa/nasa.bracket
+# echo " Done"
+# echo " * Processing nba ..."
+# python scripts/json2bracket.py -f raw-data/nba/nba.json -c -s > input-data/nba/nba.bracket
+# echo " Done"
+# echo " * Processing reads ..."
+# python scripts/json2bracket.py -f raw-data/reads/reads.json -c -s > input-data/reads/reads.bracket
+# echo " Done"
+# echo " * Processing recipes ..."
+# python scripts/json2bracket.py -f raw-data/recipes/recipes.json -c -s > input-data/recipes/recipes.bracket
+# echo " Done"
+# echo " * Processing reddit ..."
+# python scripts/json2bracket.py -f raw-data/reddit/reddit.json -c -s > input-data/reddit/reddit.bracket
+# echo " Done"
+# echo " * Processing schema ..."
+# python scripts/json2bracket.py -f raw-data/schema/schema.json -c -s > input-data/schema/schema.bracket
+# echo " Done"
+# echo " * Processing smsen ..."
+# python scripts/json2bracket.py -f raw-data/smsen/smsen.json -c -s > input-data/smsen/smsen.bracket
+# echo " Done"
+# echo " * Processing smszh ..."
+# python scripts/json2bracket.py -f raw-data/smszh/smszh.json -c -s > input-data/smszh/smszh.bracket
+# echo " Done"
+# echo " * Processing spotify ..."
+# python scripts/json2bracket.py -f raw-data/spotify/spotify.json -c -s > input-data/spotify/spotify.bracket
+# echo " Done"
+# echo " * Processing standev ..."
+# python scripts/json2bracket.py -f raw-data/standev/standev.json -c -s > input-data/standev/standev.bracket
+# echo " Done"
+# echo " * Processing stantrain ..."
+# python scripts/json2bracket.py -f raw-data/stantrain/stantrain.json -c -s > input-data/stantrain/stantrain.bracket
+# echo " Done"
+# echo " * Processing trees ..."
+# python scripts/json2bracket.py -f raw-data/trees/trees.json -c -s > input-data/trees/trees.bracket
+# echo " Done"
+# echo " * Processing twitter ..."
+# python scripts/json2bracket.py -f raw-data/twitter/twitter.json -c -s > input-data/twitter/twitter.bracket
+# echo " Done"
+# echo " * Processing twitter2 ..."
+# python scripts/json2bracket.py -f raw-data/twitter2/twitter2.json -c -s > input-data/twitter2/twitter2.bracket
+# echo " Done"
+# echo " * Processing virus ..."
+# python scripts/json2bracket.py -f raw-data/virus/virus.json -c -s > input-data/virus/virus.bracket
+# echo " Done"
+
+# Create input data directories in case they do not exist.
+echo "Analyze data (3/3)"
+mkdir -p analysis/
+
+# Analyze datasets.
+# echo " * Analyze arxiv ..."
+# python scripts/analyze-json.py -f raw-data/arxiv/arxiv.json > analysis/arxiv.txt
+# echo " Done"
+# echo " * Analyze cards ..."
+# python scripts/analyze-json.py -f raw-data/cards/cards.json > analysis/cards.txt
+# echo " Done"
+echo " * Analyze clothing ...\c"
+python scripts/analyze-json.py -f raw-data/clothing/clothing.json > analysis/clothing.txt
+echo " Done"
+# echo " * Analyze dblp ..."
+# python scripts/analyze-json.py -f raw-data/dblp/dblp.json > analysis/dblp.txt
+# echo " Done"
+# echo " * Analyze denf ..."
+# python scripts/analyze-json.py -f raw-data/denf/denf.json > analysis/denf.txt
+# echo " Done"
+# echo " * Analyze device ..."
+# python scripts/analyze-json.py -f raw-data/device/device.json > analysis/device.txt
+# echo " Done"
+# echo " * Analyze face ..."
+# python scripts/analyze-json.py -f raw-data/face/face.json > analysis/face.txt
+# echo " Done"
+# echo " * Analyze fenf ..."
+# python scripts/analyze-json.py -f raw-data/fenf/fenf.json > analysis/fenf.txt
+# echo " Done"
+# echo " * Analyze movies ..."
+# python scripts/analyze-json.py -f raw-data/movies/movies.json > analysis/movies.txt
+# echo " Done"
+# echo " * Analyze nasa ..."
+# python scripts/analyze-json.py -f raw-data/nasa/nasa.json > analysis/nasa.txt
+# echo " Done"
+# echo " * Analyze nba ..."
+# python scripts/analyze-json.py -f raw-data/nba/nba.json > analysis/nba.txt
+# echo " Done"
+# echo " * Analyze reads ..."
+# python scripts/analyze-json.py -f raw-data/reads/reads.json > analysis/reads.txt
+# echo " Done"
+# echo " * Analyze recipes ..."
+# python scripts/analyze-json.py -f raw-data/recipes/recipes.json > analysis/recipes.txt
+# echo " Done"
+# echo " * Analyze reddit ..."
+# python scripts/analyze-json.py -f raw-data/reddit/reddit.json > analysis/reddit.txt
+# echo " Done"
+# echo " * Analyze schema ..."
+# python scripts/analyze-json.py -f raw-data/schema/schema.json > analysis/schema.txt
+# echo " Done"
+# echo " * Analyze smsen ..."
+# python scripts/analyze-json.py -f raw-data/smsen/smsen.json > analysis/smsen.txt
+# echo " Done"
+# echo " * Analyze smszh ..."
+# python scripts/analyze-json.py -f raw-data/smszh/smszh.json > analysis/smszh.txt
+# echo " Done"
+# echo " * Analyze spotify ..."
+# python scripts/analyze-json.py -f raw-data/spotify/spotify.json > analysis/spotify.txt
+# echo " Done"
+# echo " * Analyze standev ..."
+# python scripts/analyze-json.py -f raw-data/standev/standev.json > analysis/standev.txt
+# echo " Done"
+# echo " * Analyze stantrain ..."
+# python scripts/analyze-json.py -f raw-data/stantrain/stantrain.json > analysis/stantrain.txt
+# echo " Done"
+# echo " * Analyze trees ..."
+# python scripts/analyze-json.py -f raw-data/trees/trees.json > analysis/trees.txt
+# echo " Done"
+# echo " * Analyze twitter ..."
+# python scripts/analyze-json.py -f raw-data/twitter/twitter.json > analysis/twitter.txt
+# echo " Done"
+# echo " * Analyze twitter2 ..."
+# python scripts/analyze-json.py -f raw-data/twitter2/twitter2.json > analysis/twitter2.txt
+# echo " Done"
+# echo " * Analyze virus ..."
+# python scripts/analyze-json.py -f raw-data/virus/virus.json > analysis/virus.txt
+# echo " Done"
+
+elapsed=$(( SECONDS - start_time ))
+echo "Datasets were downloaded and pre-processed in" $elapsed "seconds."
