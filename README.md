@@ -11,9 +11,9 @@ This repository contains the experimental data for JSON similarity lookups that 
 }
 ```
 
-## Fetch and Preprocess Data
+## Fetch, preprocess, and analyze data
 
-The raw JSON datasets are fetched from repositories (see directory `raw-data`) and converted into bracket notation which serves as the input data for the algorithms (see directory `input-data`). Both steps are performed by the following script:
+The raw JSON datasets are fetched from repositories (see directory `raw-data`) and converted into bracket notation which serves as the input data for the algorithms (see directory `input-data`). Further, the characteristics of the JSON datasets are analyzed. All steps are performed by the following script:
 ```
 sh scripts/download-prepare.sh
 ```
