@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/442127073.svg)](https://zenodo.org/badge/latestdoi/442127073)
+
 # jedi-datasets
 
 This repository contains the experimental data for JSON similarity lookups that are published in the following publication:
