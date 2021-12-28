@@ -58,7 +58,6 @@ git clone https://frosch.cosy.sbg.ac.at/datasets/json/spotify.git
 git clone https://frosch.cosy.sbg.ac.at/datasets/json/standev.git
 git clone https://frosch.cosy.sbg.ac.at/datasets/json/stantrain.git
 git clone https://frosch.cosy.sbg.ac.at/datasets/json/trees.git
-git clone https://frosch.cosy.sbg.ac.at/datasets/json/twitter.git
 git clone https://frosch.cosy.sbg.ac.at/datasets/json/twitter2.git
 git clone https://frosch.cosy.sbg.ac.at/datasets/json/virus.git
 
@@ -86,7 +85,6 @@ mkdir -p input-data/spotify
 mkdir -p input-data/standev
 mkdir -p input-data/stantrain
 mkdir -p input-data/trees
-mkdir -p input-data/twitter
 mkdir -p input-data/twitter2
 mkdir -p input-data/virus
 
@@ -154,9 +152,6 @@ python scripts/json2bracket.py -f raw-data/stantrain/stantrain.json -c -s > inpu
 echo " Done"
 echo " * Processing trees ...\c"
 python scripts/json2bracket.py -f raw-data/trees/trees.json -c -s > input-data/trees/trees.bracket
-echo " Done"
-echo " * Processing twitter ...\c"
-python scripts/json2bracket.py -f raw-data/twitter/twitter.json -c -s > input-data/twitter/twitter.bracket
 echo " Done"
 echo " * Processing twitter2 ...\c"
 python scripts/json2bracket.py -f raw-data/twitter2/twitter2.json -c -s > input-data/twitter2/twitter2.bracket
@@ -232,9 +227,6 @@ python scripts/analyze-json.py -f raw-data/stantrain/stantrain.json > analysis/s
 echo " Done"
 echo " * Analyze trees ...\c"
 python scripts/analyze-json.py -f raw-data/trees/trees.json > analysis/trees.txt
-echo " Done"
-echo " * Analyze twitter ...\c"
-python scripts/analyze-json.py -f raw-data/twitter/twitter.json > analysis/twitter.txt
 echo " Done"
 echo " * Analyze twitter2 ...\c"
 python scripts/analyze-json.py -f raw-data/twitter2/twitter2.json > analysis/twitter2.txt
